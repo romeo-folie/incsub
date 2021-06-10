@@ -4,11 +4,15 @@
   height: 100vh;
 }
 
-.left {
-  width: 65%;
+.division {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.left {
+  width: 65%;
+  position: relative;
 }
 
 .left-content {
@@ -18,4 +22,24 @@
 .right {
   width: 35%;
   background-color: #296efa;
+}
+
+.right-content {
+  width: 70%;
+}
+
+.dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: #acacac;
+}
+
+.dot:first-of-type {
+  background-color: black;
+  margin-left: 10px;
+}
+
+.dot:not(:last-of-type) {
+  margin-right: 8px;
 }

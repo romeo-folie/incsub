@@ -8,8 +8,9 @@ import {
   IconButton,
   InputAdornment,
   makeStyles,
+  Box,
 } from "@material-ui/core";
-import {Visibility, VisibilityOff} from "@material-ui/icons";
+import {VisibilityOff} from "@material-ui/icons";
 import "./App.css";
 
 const useStyles = makeStyles({
@@ -38,19 +39,51 @@ const useStyles = makeStyles({
   tandc: {
     marginTop: 25,
   },
-  title: {
+  leftTitle: {
     fontWeight: "bold",
   },
+  rightTitle: {
+    color: "#ffffff",
+    fontWeight: "bold",
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  description: {
+    color: "#ffffff",
+    lineHeight: 1.5,
+  },
+  stepInfo: {
+    position: "absolute",
+    top: 20,
+    right: 30,
+    display: "flex",
+    alignItems: "center",
+  },
+  stepTitle: {
+    fontWeight: "bold",
+    fontSize: 12,
+  },
 });
+
+const Dot = () => <span className="dot"></span>;
 
 const App = () => {
   const styles = useStyles();
 
   return (
     <div className="wrapper">
-      <div className="left">
+      <div className="division left">
+        <Box className={styles.stepInfo}>
+          <Typography variant="body2" className={styles.stepTitle}>
+            Step 1 of 3
+          </Typography>
+          <Dot />
+          <Dot />
+          <Dot />
+        </Box>
+
         <div className="left-content">
-          <Typography variant="h4" className={styles.title}>
+          <Typography variant="h4" className={styles.leftTitle}>
             Let's set up the account
           </Typography>
           <Typography className={styles.subtitle}>
@@ -123,8 +156,20 @@ const App = () => {
           </form>
         </div>
       </div>
-      <div className="right">
-        <h3>Right</h3>
+      <div className="division right">
+        <div className="right-content">
+          <Typography variant="h4" className={styles.rightTitle}>
+            Dummy heading
+          </Typography>
+
+          <Typography variant="body2" className={styles.description}>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio
+            cupiditate at modi officiis quasi provident repudiandae distinctio
+            ea totam deleniti, iusto doloremque cumque excepturi et! Sunt dolor
+            cupiditate consectetur nostrum officiis? Fugit vero voluptatem nam
+            voluptate eos, reiciendis quos ea.
+          </Typography>
+        </div>
       </div>
     </div>
   );
