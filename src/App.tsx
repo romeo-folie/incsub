@@ -66,10 +66,6 @@ interface FormValues {
   password: string;
 }
 
-interface FieldTypes {
-  [name: string]: string;
-}
-
 const initialValues = {
   name: "",
   email: "",
@@ -92,18 +88,21 @@ const App = () => {
     console.log("values ", values);
   };
 
-  const validate = (fieldValues: FieldTypes) => {
+  const validate = (fieldValues: any = values): void => {
     const errorObj = {...errors};
 
     if ("name" in fieldValues)
       errorObj.name = fieldValues.name ? "" : "This field is required";
     if ("email" in fieldValues)
       errorObj.email =
-        fieldValues.email && /$^|.+@.+..+/.test(fieldValues.email)
+        fieldValues.email &&
+        /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(fieldValues.email)
           ? ""
           : "Please enter a valid email";
     if ("userType" in fieldValues)
-      errorObj.userType = fieldValues.userType.length ? "" : "This field is required";
+      errorObj.userType = fieldValues.userType.length
+        ? ""
+        : "This field is required";
     if ("password" in fieldValues)
       errorObj.password =
         fieldValues.password.length >= 8 ? "" : "Minimum of 8 characters";
@@ -198,6 +197,11 @@ const App = () => {
               type="submit"
               color="primary"
               className={styles.button}
+              disabled={
+                Object.values(errors).some((err) => err !== "") ||
+                (Object.values(errors).every((err) => err === "") &&
+                  Object.values(values).every((val) => val === ""))
+              }
             >
               Next
             </Button>
