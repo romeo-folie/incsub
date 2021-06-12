@@ -1,17 +1,8 @@
-import React from "react";
-import {
-  Typography,
-  Link,
-  TextField,
-  MenuItem,
-  Button,
-  IconButton,
-  InputAdornment,
-  makeStyles,
-  Box,
-} from "@material-ui/core";
-import {VisibilityOff} from "@material-ui/icons";
+import React, {useState, ChangeEvent, FormEvent} from "react";
+import {Typography, Link, Button, makeStyles, Box} from "@material-ui/core";
 import "./App.css";
+import Input from "./components/Input";
+import Select from "./components/Select";
 
 const useStyles = makeStyles({
   form: {
@@ -19,8 +10,9 @@ const useStyles = makeStyles({
     flexDirection: "column",
   },
   subtitle: {
-    marginTop: 40,
-    marginBottom: 35,
+    marginTop: 35,
+    marginBottom: 30,
+    fontSize: 15,
   },
   input: {
     marginBottom: 15,
@@ -38,9 +30,11 @@ const useStyles = makeStyles({
   },
   tandc: {
     marginTop: 25,
+    fontSize: 13,
   },
   leftTitle: {
     fontWeight: "bold",
+    fontSize: 30,
   },
   rightTitle: {
     color: "#ffffff",
@@ -65,10 +59,74 @@ const useStyles = makeStyles({
   },
 });
 
+interface FormValues {
+  name: string;
+  email: string;
+  userType: string;
+  password: string;
+}
+
+interface FieldTypes {
+  [name: string]: string;
+}
+
+const initialValues = {
+  name: "",
+  email: "",
+  userType: "",
+  password: "",
+};
+
+const userTypeOptions = ["Developer", "Designer"];
+
 const Dot = () => <span className="dot"></span>;
 
 const App = () => {
   const styles = useStyles();
+
+  const [values, setValues] = useState<FormValues>(initialValues);
+  const [errors, setErrors] = useState<FormValues>(initialValues);
+
+  const handleSubmit = (event: FormEvent): void => {
+    event.preventDefault();
+    console.log("values ", values);
+  };
+
+  const validate = (fieldValues: FieldTypes) => {
+    const errorObj = {...errors};
+
+    if ("name" in fieldValues)
+      errorObj.name = fieldValues.name ? "" : "This field is required";
+    if ("email" in fieldValues)
+      errorObj.email =
+        fieldValues.email && /$^|.+@.+..+/.test(fieldValues.email)
+          ? ""
+          : "Please enter a valid email";
+    if ("userType" in fieldValues)
+      errorObj.userType = fieldValues.userType.length ? "" : "This field is required";
+    if ("password" in fieldValues)
+      errorObj.password =
+        fieldValues.password.length >= 8 ? "" : "Minimum of 8 characters";
+
+    setErrors({
+      ...errorObj,
+    });
+  };
+
+  const handleInputChange = (
+    event: ChangeEvent<
+      HTMLInputElement | {name?: string | undefined; value: unknown}
+    >
+  ): void => {
+    const {name, value} = event.target;
+
+    setValues({
+      ...values,
+      [name as string]: value,
+    });
+
+    validate({[name as string]: value as string});
+  };
 
   return (
     <div className="wrapper">
@@ -93,50 +151,46 @@ const App = () => {
             </Link>
           </Typography>
 
-          <form className={styles.form}>
-            <TextField
+          <form
+            className={styles.form}
+            autoComplete="off"
+            onSubmit={handleSubmit}
+          >
+            <Input
               className={styles.input}
               label="Your name"
-              variant="outlined"
+              name="name"
+              onChange={handleInputChange}
+              value={values.name}
+              error={errors.name}
             />
 
-            <TextField
+            <Input
               className={styles.input}
               label="Email address"
-              variant="outlined"
+              name="email"
+              onChange={handleInputChange}
+              value={values.email}
+              error={errors.email}
             />
 
-            <TextField
+            <Select
               className={styles.input}
               label="I would describe my user type as"
-              variant="outlined"
-              select
-            >
-              <MenuItem value="">None</MenuItem>
-              <MenuItem value="developer">Developer</MenuItem>
-              <MenuItem value="designer">Designer</MenuItem>
-            </TextField>
+              name="userType"
+              onChange={handleInputChange}
+              value={values.userType}
+              options={userTypeOptions}
+              error={errors.userType}
+            />
 
-            <TextField
+            <Input
               className={styles.input}
               label="Password"
-              type="password"
-              variant="outlined"
-              helperText="Minimum 8 characters"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      // onClick={handleClickShowPassword}
-                      // onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      <VisibilityOff />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
+              name="password"
+              onChange={handleInputChange}
+              value={values.password}
+              error={errors.password}
             />
 
             <Button
