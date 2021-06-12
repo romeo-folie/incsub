@@ -124,7 +124,7 @@ const App = () => {
       [name as string]: value,
     });
 
-    validate({[name as string]: value as string});
+    validate({[name as string]: value});
   };
 
   return (
@@ -200,18 +200,16 @@ const App = () => {
               disabled={
                 Object.values(errors).some((err) => err !== "") ||
                 (Object.values(errors).every((err) => err === "") &&
-                  Object.values(values).every((val) => val === ""))
+                  Object.values(values).some((val) => val === ""))
               }
             >
               Next
             </Button>
-
-            <Typography variant="body2" className={styles.tandc}>
-              By clicking the "Next" button, you agree to creating a free
-              account, and to <Link>Terms of Service</Link> and{" "}
-              <Link>Privacy Policy</Link>
-            </Typography>
           </form>
+          <Typography variant="body2" className={styles.tandc}>
+            By clicking the "Next" button, you agree to creating a free account,
+            and to <Link>Terms of Service</Link> and <Link>Privacy Policy</Link>
+          </Typography>
         </div>
       </div>
       <div className="division right">
