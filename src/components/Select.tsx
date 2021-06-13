@@ -28,8 +28,8 @@ const Select: React.FC<IProps> = (props) => {
       className={className}
       {...(error && {error: true})}
     >
-      <InputLabel>{label}</InputLabel>
-      <MSelect label={label} name={name} value={value} onChange={onChange}>
+      <InputLabel htmlFor={name}>{label}</InputLabel>
+      <MSelect id={name} label={label} name={name} value={value} onChange={onChange}>
         <MenuItem value="">None</MenuItem>
         {options.map((opt) => (
           <MenuItem value={opt.toLowerCase()} key={opt.toLowerCase()}>

@@ -5,12 +5,12 @@ import {Visibility, VisibilityOff} from "@material-ui/icons";
 interface Iprops {
   name: string;
   value: string;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   label: string;
   error: string;
   className: string;
-  onShowPasswordClick?: () => void;
   showPassword?: boolean;
+  onShowPasswordClick?: () => void;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Input: React.FC<Iprops> = (props) => {
@@ -33,7 +33,7 @@ const Input: React.FC<Iprops> = (props) => {
       className={className}
       onChange={onChange}
       value={value}
-      key={name}
+      aria-label={name}
       {...(error && {error: true, helperText: error})}
       {...(name === "password" && {
         InputProps: {
