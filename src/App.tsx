@@ -82,6 +82,12 @@ const App = () => {
 
   const [values, setValues] = useState<FormValues>(initialValues);
   const [errors, setErrors] = useState<FormValues>(initialValues);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  
+  const handleShowPasswordClick = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleSubmit = (event: FormEvent): void => {
     event.preventDefault();
@@ -190,6 +196,8 @@ const App = () => {
               onChange={handleInputChange}
               value={values.password}
               error={errors.password}
+              onShowPasswordClick={handleShowPasswordClick}
+              showPassword={showPassword}
             />
 
             <Button

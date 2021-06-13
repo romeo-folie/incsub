@@ -1,6 +1,6 @@
 import React, {ChangeEvent} from "react";
 import {TextField, InputAdornment, IconButton} from "@material-ui/core";
-import {VisibilityOff} from "@material-ui/icons";
+import {Visibility, VisibilityOff} from "@material-ui/icons";
 
 interface Iprops {
   name: string;
@@ -9,10 +9,21 @@ interface Iprops {
   label: string;
   error: string;
   className: string;
+  onShowPasswordClick?: () => void;
+  showPassword?: boolean;
 }
 
 const Input: React.FC<Iprops> = (props) => {
-  const {name, value, onChange, label, error, className} = props;
+  const {
+    name,
+    value,
+    onChange,
+    label,
+    error,
+    className,
+    showPassword,
+    onShowPasswordClick,
+  } = props;
 
   return (
     <TextField
@@ -22,18 +33,23 @@ const Input: React.FC<Iprops> = (props) => {
       className={className}
       onChange={onChange}
       value={value}
+      key={name}
       {...(error && {error: true, helperText: error})}
       {...(name === "password" && {
         InputProps: {
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton aria-label="toggle password visibility" edge="end">
-                <VisibilityOff />
+              <IconButton
+                aria-label="toggle password visibility"
+                edge="end"
+                onClick={onShowPasswordClick}
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
             </InputAdornment>
           ),
         },
-        type: "password",
+        type: showPassword ? "text" : "password",
       })}
     />
   );
