@@ -48,8 +48,8 @@ const Input: React.FC<Iprops> = (props) => {
               </IconButton>
             </InputAdornment>
           ),
+          type: showPassword ? "text" : "password",
         },
-        type: showPassword ? "text" : "password",
       })}
     />
   );
