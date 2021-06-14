@@ -2,7 +2,7 @@ import React, {useState, ChangeEvent, FormEvent} from "react";
 import {Typography, Link, Button, makeStyles, Box} from "@material-ui/core";
 import "./App.css";
 import Input from "./components/Input/Input";
-import Select from "./components/Select";
+import Select from "./components/Select/Select";
 
 const useStyles = makeStyles({
   form: {
