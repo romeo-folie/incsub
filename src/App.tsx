@@ -1,7 +1,7 @@
 import React, {useState, ChangeEvent, FormEvent} from "react";
 import {Typography, Link, Button, makeStyles, Box} from "@material-ui/core";
 import "./App.css";
-import Input from "./components/Input";
+import Input from "./components/Input/Input";
 import Select from "./components/Select";
 
 const useStyles = makeStyles({
@@ -84,7 +84,6 @@ const App = () => {
   const [errors, setErrors] = useState<FormValues>(initialValues);
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  
   const handleShowPasswordClick = () => {
     setShowPassword(!showPassword);
   };
@@ -162,7 +161,6 @@ const App = () => {
             onSubmit={handleSubmit}
           >
             <Input
-              className={styles.input}
               label="Your name"
               name="name"
               onChange={handleInputChange}
@@ -171,7 +169,6 @@ const App = () => {
             />
 
             <Input
-              className={styles.input}
               label="Email address"
               name="email"
               onChange={handleInputChange}
@@ -190,7 +187,6 @@ const App = () => {
             />
 
             <Input
-              className={styles.input}
               label="Password"
               name="password"
               onChange={handleInputChange}
