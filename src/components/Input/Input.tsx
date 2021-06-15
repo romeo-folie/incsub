@@ -1,7 +1,12 @@
-import React, {ChangeEvent, useState, useEffect} from "react";
+import React, {
+  ChangeEvent,
+  useState,
+  useLayoutEffect,
+  useCallback,
+} from "react";
 import Show from "../../assets/eye.svg";
 import Hide from "../../assets/eye-off.svg";
-import "./Input.css";
+import "./Input.scss";
 
 interface Iprops {
   name: string;
@@ -24,23 +29,23 @@ const Input: React.FC<Iprops> = (props) => {
     onShowPasswordClick,
   } = props;
   const [hasValue, setHasValue] = useState<boolean>(false);
-  const handleBlur = () => setHasValue(true);
+
+  const handleBlur = useCallback(() => {
+    if (value.length) {
+      setHasValue(true);
+    }
+  }, [value]);
+
   const handleFocus = () => setHasValue(false);
 
-  useEffect(() => {
-    function initFields() {
-      if (value.length) {
-        setHasValue(true);
-      }
-    }
-
-    initFields();
-  }, [value]);
+  useLayoutEffect(() => {
+    handleBlur();
+  }, [handleBlur]);
 
   return (
     <div
       className={`input-group ${error ? "error" : ""} ${
-        hasValue && value.length ? "has-value" : ""
+        hasValue ? "has-value" : ""
       }`}
     >
       <label htmlFor={name}>{label}</label>

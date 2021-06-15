@@ -1,5 +1,10 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
-import "../Input/Input.css";
+import React, {
+  ChangeEvent,
+  useLayoutEffect,
+  useState,
+  useCallback,
+} from "react";
+import "../Input/Input.scss";
 
 interface IProps {
   name: string;
@@ -10,30 +15,29 @@ interface IProps {
   label: string;
   options: string[];
   error: string;
-  className?: string;
 }
 
 const Select: React.FC<IProps> = (props) => {
-  const {label, name, value, onChange, error, className, options} = props;
+  const {label, name, value, onChange, error, options} = props;
 
   const [hasValue, setHasValue] = useState<boolean>(false);
-  const handleBlur = () => setHasValue(true);
+
+  const handleBlur = useCallback(() => {
+    if (value.length) {
+      setHasValue(true);
+    }
+  }, [value]);
+
   const handleFocus = () => setHasValue(false);
 
-  useEffect(() => {
-    function initFields() {
-      if (value.length) {
-        setHasValue(true);
-      }
-    }
-
-    initFields();
-  }, [value]);
+  useLayoutEffect(() => {
+    handleBlur();
+  }, [handleBlur]);
 
   return (
     <div
       className={`input-group ${error ? "error" : ""} ${
-        hasValue && value.length ? "has-value" : ""
+        hasValue ? "has-value" : ""
       }`}
     >
       <label htmlFor={name}>{label}</label>
@@ -48,7 +52,9 @@ const Select: React.FC<IProps> = (props) => {
       >
         <option value=""></option>
         {options.map((opt) => (
-          <option value={opt.toLowerCase()}>{opt}</option>
+          <option value={opt.toLowerCase()} key={opt.toLowerCase()}>
+            {opt}
+          </option>
         ))}
       </select>
       {error ? <span className="helper-text">{error}</span> : null}

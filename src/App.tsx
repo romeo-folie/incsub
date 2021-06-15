@@ -1,63 +1,7 @@
 import React, {useState, ChangeEvent, FormEvent} from "react";
-import {Typography, Link, Button, makeStyles, Box} from "@material-ui/core";
-import "./App.css";
+import "./App.scss";
 import Input from "./components/Input/Input";
 import Select from "./components/Select/Select";
-
-const useStyles = makeStyles({
-  form: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  subtitle: {
-    marginTop: 35,
-    marginBottom: 30,
-    fontSize: 15,
-  },
-  input: {
-    marginBottom: 15,
-  },
-  link: {
-    marginLeft: 5,
-    fontWeight: "bold",
-    color: "primary",
-  },
-  button: {
-    padding: 15,
-    marginTop: 10,
-    marginBottom: 15,
-    textTransform: "capitalize",
-  },
-  tandc: {
-    marginTop: 25,
-    fontSize: 13,
-  },
-  leftTitle: {
-    fontWeight: "bold",
-    fontSize: 30,
-  },
-  rightTitle: {
-    color: "#ffffff",
-    fontWeight: "bold",
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  description: {
-    color: "#ffffff",
-    lineHeight: 1.5,
-  },
-  stepInfo: {
-    position: "absolute",
-    top: 20,
-    right: 30,
-    display: "flex",
-    alignItems: "center",
-  },
-  stepTitle: {
-    fontWeight: "bold",
-    fontSize: 12,
-  },
-});
 
 interface FormValues {
   name: string;
@@ -78,8 +22,6 @@ const userTypeOptions = ["Developer", "Designer"];
 const Dot = () => <span className="dot"></span>;
 
 const App = () => {
-  const styles = useStyles();
-
   const [values, setValues] = useState<FormValues>(initialValues);
   const [errors, setErrors] = useState<FormValues>(initialValues);
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -135,31 +77,23 @@ const App = () => {
   return (
     <div className="wrapper">
       <div className="division left">
-        <Box className={styles.stepInfo}>
-          <Typography variant="body2" className={styles.stepTitle}>
-            Step 1 of 3
-          </Typography>
+        <div className="step-info">
+          <div className="step-title">Step 1 of 3</div>
           <Dot />
           <Dot />
           <Dot />
-        </Box>
+        </div>
 
         <div className="left-content">
-          <Typography variant="h4" className={styles.leftTitle}>
-            Let's set up the account
-          </Typography>
-          <Typography className={styles.subtitle}>
+          <h4 className="left-title">Let's set up the account</h4>
+          <h4 className="subtitle">
             Already have an account?
-            <Link href="#" color="primary" className={styles.link}>
+            <a href="/" id="signInLink">
               Sign in
-            </Link>
-          </Typography>
+            </a>
+          </h4>
 
-          <form
-            className={styles.form}
-            autoComplete="off"
-            onSubmit={handleSubmit}
-          >
+          <form className="form" autoComplete="off" onSubmit={handleSubmit}>
             <Input
               label="Your name"
               name="name"
@@ -177,7 +111,6 @@ const App = () => {
             />
 
             <Select
-              className={styles.input}
               label="I would describe my user type as"
               name="userType"
               onChange={handleInputChange}
@@ -196,39 +129,37 @@ const App = () => {
               showPassword={showPassword}
             />
 
-            <Button
-              variant="contained"
+            <button
               type="submit"
-              color="primary"
-              className={styles.button}
-              disabled={
+              className={`sub-btn ${
                 Object.values(errors).some((err) => err !== "") ||
                 (Object.values(errors).every((err) => err === "") &&
                   Object.values(values).some((val) => val === ""))
-              }
+                  ? "disabled"
+                  : ""
+              }`}
             >
               Next
-            </Button>
+            </button>
           </form>
-          <Typography variant="body2" className={styles.tandc}>
+          <span className="tandc">
             By clicking the "Next" button, you agree to creating a free account,
-            and to <Link>Terms of Service</Link> and <Link>Privacy Policy</Link>
-          </Typography>
+            and to <a href="/">Terms of Service</a> and{" "}
+            <a href="/">Privacy Policy</a>
+          </span>
         </div>
       </div>
       <div className="division right">
         <div className="right-content">
-          <Typography variant="h4" className={styles.rightTitle}>
-            Dummy heading
-          </Typography>
+          <h4 className="right-title">Dummy heading</h4>
 
-          <Typography variant="body2" className={styles.description}>
+          <p className="description">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio
             cupiditate at modi officiis quasi provident repudiandae distinctio
             ea totam deleniti, iusto doloremque cumque excepturi et! Sunt dolor
             cupiditate consectetur nostrum officiis? Fugit vero voluptatem nam
             voluptate eos, reiciendis quos ea.
-          </Typography>
+          </p>
         </div>
       </div>
     </div>
